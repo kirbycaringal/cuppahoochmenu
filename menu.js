@@ -74,6 +74,7 @@ function openViewer(label, images) {
 function closeViewer() {
   viewerScreen.classList.remove('open');
   document.body.style.overflow = '';
+  resetFitMode();
 }
 
 /* ══════════════════════════════
@@ -127,23 +128,34 @@ nextBtn.addEventListener('click', () => goTo(current + 1));
 /* close button */
 closeBtn.addEventListener('click', closeViewer);
 
-/* ── fullscreen toggle ── */
+/* ── fit-to-screen toggle ── */
 const fullscreenBtn  = document.getElementById('fullscreen-btn');
 const fullscreenIcon = document.getElementById('fullscreen-icon');
+let isCover = false;
 
 fullscreenBtn.addEventListener('click', () => {
-  if (!document.fullscreenElement) {
-    viewerScreen.requestFullscreen().catch(() => {});
-  } else {
-    document.exitFullscreen().catch(() => {});
-  }
+  isCover = !isCover;
+
+  // toggle cover class on all slide images
+  document.querySelectorAll('.slide img').forEach(img => {
+    img.classList.toggle('cover', isCover);
+  });
+
+  // swap icon: arrows-fullscreen = fill mode, fullscreen-exit look = contain mode
+  fullscreenIcon.className = isCover
+    ? 'bi bi-arrows-angle-contract'
+    : 'bi bi-arrows-angle-expand';
+
+  fullscreenBtn.title = isCover ? 'Fit to screen' : 'Fill screen';
 });
 
-document.addEventListener('fullscreenchange', () => {
-  const isFullscreen = !!document.fullscreenElement;
-  fullscreenIcon.className = isFullscreen ? 'bi bi-fullscreen-exit' : 'bi bi-fullscreen';
-  fullscreenBtn.title = isFullscreen ? 'Exit fullscreen' : 'Fullscreen';
-});
+/* reset fit mode when viewer closes */
+function resetFitMode() {
+  isCover = false;
+  document.querySelectorAll('.slide img').forEach(img => img.classList.remove('cover'));
+  fullscreenIcon.className = 'bi bi-arrows-angle-expand';
+  fullscreenBtn.title = 'Fill screen';
+}
 
 /* keyboard navigation */
 document.addEventListener('keydown', (e) => {
