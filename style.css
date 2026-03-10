@@ -339,6 +339,31 @@ body {
 .close-float:hover { background: var(--red); transform: scale(1.1); }
 .close-float i     { font-size: 1.1rem; }
 
+/* ── FLOATING FULLSCREEN BUTTON ── */
+.fullscreen-float {
+  position: absolute;
+  top: 16px;
+  right: 68px;
+  z-index: 50;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.45);
+  border: 2px solid rgba(255,255,255,0.25);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+}
+
+.fullscreen-float:hover { background: var(--orange); transform: scale(1.1); }
+.fullscreen-float i     { font-size: 1rem; }
+
 /* ── FLOATING PAGE COUNTER ── */
 .counter-float {
   position: absolute;
