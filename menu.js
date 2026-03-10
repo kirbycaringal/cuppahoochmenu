@@ -127,6 +127,24 @@ nextBtn.addEventListener('click', () => goTo(current + 1));
 /* close button */
 closeBtn.addEventListener('click', closeViewer);
 
+/* ── fullscreen toggle ── */
+const fullscreenBtn  = document.getElementById('fullscreen-btn');
+const fullscreenIcon = document.getElementById('fullscreen-icon');
+
+fullscreenBtn.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    viewerScreen.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+});
+
+document.addEventListener('fullscreenchange', () => {
+  const isFullscreen = !!document.fullscreenElement;
+  fullscreenIcon.className = isFullscreen ? 'bi bi-fullscreen-exit' : 'bi bi-fullscreen';
+  fullscreenBtn.title = isFullscreen ? 'Exit fullscreen' : 'Fullscreen';
+});
+
 /* keyboard navigation */
 document.addEventListener('keydown', (e) => {
   if (!viewerScreen.classList.contains('open')) return;
